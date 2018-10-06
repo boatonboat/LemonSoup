@@ -39,21 +39,17 @@ const ls = (function(window){
                 }
             }
         }
-        this.sort = function(arr){
-            if(arr.length==0){
-                return [];
+        this.sort = function(arr,type){
+            if(type==1||type==undefined){
+                arr.sort(function(a,b){
+                    return a-b;
+                });
+            }else{
+                arr.sort(function(a,b){
+                    return a+b;
+                })
             }
-            var left = [];
-            var right = [];
-            var R = arr[0];
-            for(var _j=1;_j<arr.length;_j++){
-                if(arr[_j]<R){
-                    left.push(arr[_j]);
-                }else{
-                    right.push(arr[_j]);
-                }
-            }
-            return this.sort(left).concat(R,this.sort(right));
+            return arr;
         }
         
     }   
