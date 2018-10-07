@@ -12,7 +12,12 @@ const ls = (function(window){
             return data;
         }
         this.for = function(i,f){
-            if(f == undefined || f==null){
+            if(Array.isArray(i)){
+                for(var _j=0;_j<i.length;i++){
+                    f(_j,i);
+                }
+            }
+            else if(f == undefined || f==null){
                 var data = [];
                 if(i<0){
                     for(var _j=0;_j>i;_j--){
@@ -51,10 +56,30 @@ const ls = (function(window){
             }
             return arr;
         }
-        
-    }   
-    
-
+        this.deepcopy = function(o){
+            var c = {};
+            if(Array.isArray(o)){
+                c = o.slice();
+            }
+            else if(typeof o === 'function' && o!==null){
+                c = o.bind(this);
+            }
+            else if(typeof o === 'object' && o!==null){
+                var keys = Object.keys(o);
+                for(var i=0;i<keys.length;i++){
+                    if (o.hasOwnProperty(keys[i])) {
+                        c[keys[i]] = this.deepcopy(o[keys[i]]);
+                    }
+                }
+            }else{
+                c = o;
+            }
+            return c;
+        }
+        this.in = function(o,){
+            
+        }
+    }
     Array.prototype.matchFront = function(val){
         for(var i=0;i<this.length;i++){
             if(this[i]==val){
